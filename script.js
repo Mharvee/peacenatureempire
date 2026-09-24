@@ -1,4 +1,19 @@
-// ===== PRODUCT DATA =====
+// ============================================================
+// PRODUCT DATA
+// ------------------------------------------------------------
+// TEMPORARY PLACEHOLDER DATA — replace product names, prices,
+// descriptions and images with real Peace Nature Empire catalog
+// data before launch.
+//
+// SUPABASE INTEGRATION POINT:
+// This PRODUCTS array is shaped to mirror a future `products`
+// table (id, name, category, price, lengths, desc, img). When
+// Supabase is wired up, replace this hardcoded array with a
+// fetch from Supabase, e.g.:
+//   const { data: PRODUCTS } = await supabase.from('products').select('*');
+// Keep the same field names below so the rest of the app (grid
+// rendering, cart, modal) does not need to change.
+// ============================================================
 const PRODUCTS = [
   {
     id: 'bw22',
@@ -7,7 +22,7 @@ const PRODUCTS = [
     price: 185000,
     lengths: ['18"', '22"', '26"'],
     desc: 'Soft, bouncy waves that move naturally. Our most requested everyday texture — pre-plucked hairline, glueless-ready cap.',
-    img: 'https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?q=80&w=900&auto=format&fit=crop'
+    img: './images/img1.jpeg'
   },
   {
     id: 'bs20',
@@ -16,7 +31,7 @@ const PRODUCTS = [
     price: 165000,
     lengths: ['16"', '20"', '24"'],
     desc: 'Sleek, pin-straight strands with a glass-like finish. Holds its shape through Lagos humidity with minimal styling.',
-    img: 'https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=900&auto=format&fit=crop'
+    img: './images/img3.jpeg'
   },
   {
     id: 'ww18',
@@ -25,7 +40,7 @@ const PRODUCTS = [
     price: 175000,
     lengths: ['16"', '20"', '24"'],
     desc: 'Loose, wet-look curls for a low-maintenance, everyday-glam finish. Bounces back after a quick refresh.',
-    img: 'https://images.unsplash.com/photo-1522336572468-97b06e8ef143?q=80&w=900&auto=format&fit=crop'
+    img: './images/img4.jpeg'
   },
   {
     id: 'hd24',
@@ -34,7 +49,7 @@ const PRODUCTS = [
     price: 245000,
     lengths: ['20"', '24"', '28"'],
     desc: 'Undetectable HD lace that melts into every skin tone. Pre-bleached knots and a natural-looking baby hairline.',
-    img: 'https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?q=80&w=900&auto=format&fit=crop'
+    img: './images/img6.jpeg'
   },
   {
     id: 'dw22',
@@ -43,7 +58,7 @@ const PRODUCTS = [
     price: 195000,
     lengths: ['18"', '22"', '26"'],
     desc: 'Rich, defined curls with serious volume. A statement texture for owambe season and special occasions.',
-    img: 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=900&auto=format&fit=crop'
+    img: './images/img5.jpeg'
   },
   {
     id: 'bc18',
@@ -52,19 +67,54 @@ const PRODUCTS = [
     price: 210000,
     lengths: ['16"', '18"', '22"'],
     desc: 'Tight, springy curls with exceptional bounce and density. Built for texture that lasts through the week.',
-    img: 'https://images.unsplash.com/photo-1554519515-242161756769?q=80&w=900&auto=format&fit=crop'
+    img: './images/img2.jpeg'
   }
 ];
 
 // ===== STATE =====
-let cart = []; // { id, name, price, length, qty, img }
+const CART_STORAGE_KEY = 'pne_cart';
+let cart = loadCart(); // { key, id, name, price, length, qty, img }
+let currentFilter = '';
+let currentSearch = '';
 
 const fmt = n => '₦' + n.toLocaleString('en-NG');
 
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (err) {
+    console.warn('Could not read saved cart:', err);
+    return [];
+  }
+}
+
+function saveCart() {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  } catch (err) {
+    console.warn('Could not save cart:', err);
+  }
+}
+
 // ===== RENDER PRODUCT GRID =====
 const grid = document.getElementById('productGrid');
-function renderGrid(filter) {
-  const list = filter ? PRODUCTS.filter(p => p.category === filter) : PRODUCTS;
+const noResults = document.getElementById('noResults');
+
+function getFilteredProducts() {
+  return PRODUCTS.filter(p => {
+    const matchesFilter = currentFilter ? p.category === currentFilter : true;
+    const q = currentSearch.trim().toLowerCase();
+    const matchesSearch = q
+      ? p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q)
+      : true;
+    return matchesFilter && matchesSearch;
+  });
+}
+
+function renderGrid() {
+  const list = getFilteredProducts();
+  noResults.hidden = list.length !== 0;
   grid.innerHTML = list.map(p => `
     <div class="product-card reveal">
       <div class="product-img"><img src="${p.img}" alt="${p.name}"></div>
@@ -93,11 +143,33 @@ function renderGrid(filter) {
 }
 renderGrid();
 
-// collection filter links
+// ===== SEARCH + FILTER PILLS =====
+const productSearch = document.getElementById('productSearch');
+const filterPills = document.getElementById('filterPills');
+
+productSearch.addEventListener('input', e => {
+  currentSearch = e.target.value;
+  renderGrid();
+});
+
+filterPills.querySelectorAll('.pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    currentFilter = pill.dataset.filter;
+    filterPills.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    renderGrid();
+  });
+});
+
+// collection filter links (scroll to shop + apply filter + sync pills)
 document.querySelectorAll('.collection-card').forEach(card => {
   card.addEventListener('click', e => {
     e.preventDefault();
-    renderGrid(card.dataset.filter);
+    currentFilter = card.dataset.filter;
+    filterPills.querySelectorAll('.pill').forEach(p =>
+      p.classList.toggle('active', p.dataset.filter === currentFilter)
+    );
+    renderGrid();
     document.getElementById('shop').scrollIntoView({ behavior: 'smooth' });
   });
 });
@@ -132,9 +204,9 @@ function renderModal() {
       <div class="modal-field">
         <label>Quantity</label>
         <div class="modal-qty">
-          <button id="qtyMinus">&minus;</button>
+          <button id="qtyMinus" type="button">&minus;</button>
           <span id="qtyVal">${modalState.qty}</span>
-          <button id="qtyPlus">+</button>
+          <button id="qtyPlus" type="button">+</button>
         </div>
       </div>
       <div class="modal-actions">
@@ -160,7 +232,9 @@ function renderModal() {
 
 function closeModal() { modalOverlay.classList.remove('open'); }
 modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeCart(); closeMobileMenu(); } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeModal(); closeCart(); closeMobileMenu(); closeCheckout(); }
+});
 
 // ===== CART =====
 const cartDrawer = document.getElementById('cartDrawer');
@@ -177,9 +251,14 @@ function addToCart(p, length, qty) {
   } else {
     cart.push({ key, id: p.id, name: p.name, price: p.price, length, qty, img: p.img });
   }
+  saveCart();
   renderCart();
   openCart();
   showToast(`${p.name} added to cart`);
+}
+
+function cartTotal() {
+  return cart.reduce((s, i) => s + i.price * i.qty, 0);
 }
 
 function renderCart() {
@@ -194,9 +273,9 @@ function renderCart() {
           <h4>${i.name}</h4>
           <p class="cart-item-meta">Length: ${i.length}</p>
           <div class="qty-control">
-            <button data-dec="${i.key}">&minus;</button>
+            <button data-dec="${i.key}" type="button">&minus;</button>
             <span>${i.qty}</span>
-            <button data-inc="${i.key}">+</button>
+            <button data-inc="${i.key}" type="button">+</button>
           </div>
           <a class="cart-item-remove" data-remove="${i.key}">Remove</a>
         </div>
@@ -204,8 +283,7 @@ function renderCart() {
       </div>
     `).join('');
   }
-  const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  cartTotalEl.textContent = fmt(total);
+  cartTotalEl.textContent = fmt(cartTotal());
 
   cartItemsEl.querySelectorAll('[data-inc]').forEach(b => b.addEventListener('click', () => changeQty(b.dataset.inc, 1)));
   cartItemsEl.querySelectorAll('[data-dec]').forEach(b => b.addEventListener('click', () => changeQty(b.dataset.dec, -1)));
@@ -217,11 +295,13 @@ function changeQty(key, delta) {
   if (!item) return;
   item.qty += delta;
   if (item.qty <= 0) cart = cart.filter(i => i.key !== key);
+  saveCart();
   renderCart();
 }
 
 function removeItem(key) {
   cart = cart.filter(i => i.key !== key);
+  saveCart();
   renderCart();
 }
 
@@ -232,12 +312,109 @@ document.getElementById('cartToggle').addEventListener('click', () => { renderCa
 document.getElementById('cartClose').addEventListener('click', closeCart);
 cartOverlay.addEventListener('click', closeCart);
 
+document.getElementById('clearCartBtn').addEventListener('click', () => {
+  if (cart.length === 0) return;
+  cart = [];
+  saveCart();
+  renderCart();
+  showToast('Cart cleared');
+});
+
 document.getElementById('checkoutBtn').addEventListener('click', () => {
   if (cart.length === 0) { showToast('Your cart is empty'); return; }
-  showToast('On the live site, this connects to your preferred payment or order system.');
+  closeCart();
+  openCheckout();
 });
 
 renderCart();
+
+// ===== CHECKOUT MODAL =====
+const checkoutOverlay = document.getElementById('checkoutOverlay');
+const checkoutSummary = document.getElementById('checkoutSummary');
+const checkoutForm = document.getElementById('checkoutForm');
+const checkoutNote = document.getElementById('checkoutNote');
+const proceedBtn = document.getElementById('proceedToPaymentBtn');
+
+function renderCheckoutSummary() {
+  const rows = cart.map(i => `
+    <div class="cs-row"><span>${i.name} (${i.length}) × ${i.qty}</span><span>${fmt(i.price * i.qty)}</span></div>
+  `).join('');
+  checkoutSummary.innerHTML = rows + `<div class="cs-row cs-total"><span>Total</span><span>${fmt(cartTotal())}</span></div>`;
+}
+
+function openCheckout() {
+  renderCheckoutSummary();
+  checkoutNote.textContent = '';
+  checkoutOverlay.classList.add('open');
+}
+function closeCheckout() { checkoutOverlay.classList.remove('open'); }
+
+document.getElementById('checkoutClose').addEventListener('click', closeCheckout);
+checkoutOverlay.addEventListener('click', e => { if (e.target === checkoutOverlay) closeCheckout(); });
+
+function validateCheckoutForm(data) {
+  const errors = {};
+  if (!data.fullName.trim()) errors.fullName = 'Please enter your full name.';
+  if (!data.email.trim()) {
+    errors.email = 'Please enter your email address.';
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
+    errors.email = 'Please enter a valid email address.';
+  }
+  if (!data.phone.trim()) {
+    errors.phone = 'Please enter your phone number.';
+  } else if (!/^[0-9+\s-]{7,15}$/.test(data.phone.trim())) {
+    errors.phone = 'Please enter a valid phone number.';
+  }
+  if (!data.address.trim()) errors.address = 'Please enter your delivery address.';
+  if (!data.city.trim()) errors.city = 'Please enter your city.';
+  if (!data.state.trim()) errors.state = 'Please enter your state.';
+  return errors;
+}
+
+checkoutForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const formData = new FormData(checkoutForm);
+  const data = Object.fromEntries(formData.entries());
+  const errors = validateCheckoutForm(data);
+
+  checkoutForm.querySelectorAll('input').forEach(input => input.classList.remove('invalid'));
+  checkoutForm.querySelectorAll('.field-error').forEach(el => el.textContent = '');
+
+  const errorKeys = Object.keys(errors);
+  if (errorKeys.length > 0) {
+    errorKeys.forEach(key => {
+      const input = checkoutForm.querySelector(`[name="${key}"]`);
+      const errorEl = checkoutForm.querySelector(`[data-error-for="${key}"]`);
+      if (input) input.classList.add('invalid');
+      if (errorEl) errorEl.textContent = errors[key];
+    });
+    checkoutNote.textContent = 'Please fix the highlighted fields.';
+    return;
+  }
+
+  // ============================================================
+  // SUPABASE + PAYSTACK INTEGRATION POINT
+  // ------------------------------------------------------------
+  // Validation has passed. This is where the real order flow
+  // should be wired in:
+  //
+  //   1. Create a pending order in Supabase:
+  //        - insert into `orders` (customer info + total + status: 'pending')
+  //        - insert matching rows into `order_items` for each cart item
+  //   2. Initialize Paystack (Inline/Popup) with:
+  //        - amount: cartTotal() * 100  (kobo)
+  //        - email: data.email
+  //        - reference: the created order's id/reference
+  //   3. On Paystack success callback, verify the transaction
+  //      server-side, then update the Supabase order status to 'paid'.
+  //   4. On failure/close, leave the order as 'pending' or mark
+  //      'failed' and let the customer retry.
+  //
+  // No API keys (public or secret) belong in this file.
+  // ============================================================
+  console.log('Checkout data ready for order creation:', data, { items: cart, total: cartTotal() });
+  checkoutNote.textContent = 'Details captured. Payment integration (Paystack) connects here on the live site.';
+});
 
 // ===== MOBILE MENU =====
 const hamburger = document.getElementById('hamburger');

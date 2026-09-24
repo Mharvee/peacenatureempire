@@ -18,7 +18,10 @@
 <!-- NAVIGATION -->
 <header class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#home" class="wordmark">Peace Nature Empire</a>
+    <a href="#home" class="wordmark">
+      <img src="./images/logo.jpeg" alt="Peace Nature Empire logo" class="logo-img">
+      <span>Peace Nature Empire</span>
+    </a>
 
     <nav class="nav-links" id="navLinks">
       <a href="#home">Home</a>
@@ -46,7 +49,7 @@
   <a href="#home">Home</a>
   <a href="#shop">Shop</a>
   <a href="#collections">Collections</a>
-  <a href="#about">About</a>
+
   <a href="#contact">Contact</a>
   <a href="#shop" class="btn btn-dark">Shop Now</a>
 </div>
@@ -54,9 +57,9 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-copy">
-    <p class="hero-kicker">Lagos-made luxury hair</p>
+    <p class="hero-kicker">Lagos-made luxury wigs</p>
     <h1>Your Crown.<br>Your Confidence.</h1>
-    <p class="hero-sub">Hand-selected, ethically sourced hair, finished to sit like it grew that way. Peace Nature Empire is where Nigerian women come for wigs that hold up to everyday life and every big moment.</p>
+    <p class="hero-sub">Hand-selected, ethically sourced hair, cut and finished to sit like it grew that way. Peace Nature Empire is where Nigerian women come for wigs that hold up to everyday life and every big moment.</p>
     <div class="hero-actions">
       <a href="#shop" class="btn btn-gold">Shop Collection</a>
       <a href="#collections" class="btn btn-outline">Explore Our Wigs</a>
@@ -68,7 +71,7 @@
     </div>
   </div>
   <div class="hero-visual">
-    <img src="https://images.unsplash.com/photo-1595959183082-7b570b7e08e2?q=80&w=1200&auto=format&fit=crop" alt="Woman wearing a flowing body wave wig">
+    <img src="./images/img1.jpeg" alt="Body wave wig, 22 inches">
     <div class="hero-tag">
       <span class="hero-tag-name">Body Wave, 22"</span>
       <span class="hero-tag-price">₦185,000</span>
@@ -83,7 +86,23 @@
     <p>Six textures, all cut and pre-styled for an install-and-go finish.</p>
   </div>
 
+  <div class="shop-toolbar">
+    <div class="search-field">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="search" id="productSearch" placeholder="Search wigs by name or texture...">
+    </div>
+    <div class="filter-pills" id="filterPills">
+      <button class="pill active" data-filter="">All</button>
+      <button class="pill" data-filter="Body Wave">Body Wave</button>
+      <button class="pill" data-filter="Straight">Straight</button>
+      <button class="pill" data-filter="Curly">Curly</button>
+      <button class="pill" data-filter="Deep Wave">Deep Wave</button>
+      <button class="pill" data-filter="Lace">Lace</button>
+    </div>
+  </div>
+
   <div class="product-grid" id="productGrid"></div>
+  <p class="no-results" id="noResults" hidden>No wigs match your search. Try a different name or texture.</p>
 </section>
 
 <!-- COLLECTIONS -->
@@ -94,23 +113,23 @@
   </div>
   <div class="collection-grid">
     <a class="collection-card" href="#shop" data-filter="Body Wave">
-      <img src="https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=900&auto=format&fit=crop" alt="Body wave hair texture">
+      <img src="./images/img2.jpeg" alt="Body wave wig texture">
       <span>Body Wave</span>
     </a>
     <a class="collection-card" href="#shop" data-filter="Straight">
-      <img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=900&auto=format&fit=crop" alt="Straight hair texture">
+      <img src="./images/img3.jpeg" alt="Bone straight wig texture">
       <span>Straight</span>
     </a>
     <a class="collection-card" href="#shop" data-filter="Curly">
-      <img src="https://images.unsplash.com/photo-1522336572468-97b06e8ef143?q=80&w=900&auto=format&fit=crop" alt="Curly hair texture">
+      <img src="./images/img4.jpeg" alt="Curly wig texture">
       <span>Curly</span>
     </a>
     <a class="collection-card" href="#shop" data-filter="Deep Wave">
-      <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=900&auto=format&fit=crop" alt="Deep wave hair texture">
+      <img src="./images/img5.jpeg" alt="Deep wave wig texture">
       <span>Deep Wave</span>
     </a>
     <a class="collection-card" href="#shop" data-filter="Lace">
-      <img src="https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?q=80&w=900&auto=format&fit=crop" alt="Lace wig detail">
+      <img src="./images/img6.jpeg" alt="HD lace wig detail">
       <span>Lace Wigs</span>
     </a>
   </div>
@@ -132,7 +151,7 @@
     </div>
     <div class="why-card">
       <span class="why-num">Confidence Guaranteed</span>
-      <p>Hair that survives Lagos heat, humidity and a full day of meetings, without a single touch-up.</p>
+      <p>Wigs that survive Lagos heat, humidity and a full day of meetings, without a single touch-up.</p>
     </div>
     <div class="why-card">
       <span class="why-num">Customer Experience</span>
@@ -141,24 +160,12 @@
   </div>
 </section>
 
-<!-- ABOUT -->
-<section class="about" id="about">
-  <div class="about-visual">
-    <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1100&auto=format&fit=crop" alt="Close up of styled natural hair texture">
-  </div>
-  <div class="about-copy">
-    <p class="hero-kicker">Our Story</p>
-    <h2>Beauty, built to be worn confidently.</h2>
-    <p>Peace Nature Empire started with a simple belief: every woman deserves hair that makes getting ready feel easy, not stressful. We source carefully, finish by hand, and treat every order like it's going to someone who has somewhere important to be.</p>
-    <p>We're not chasing trends. We're building a wardrobe of hair you can reach for again and again — for the office, for owambe season, for the days you just want to feel like yourself, turned up a notch.</p>
-  </div>
-</section>
 
 <!-- TESTIMONIALS -->
 <section class="testimonials">
   <div class="section-head">
     <h2>From Our Customers</h2>
-    <p class="demo-note">Demo testimonials — for illustration only.</p>
+    <p class="demo-note">Placeholder testimonials — replace with real customer reviews.</p>
   </div>
   <div class="testimonial-grid">
     <div class="testimonial-card">
@@ -182,12 +189,12 @@
     <h2>Follow the Empire</h2>
   </div>
   <div class="social-grid">
-    <img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?q=80&w=500&auto=format&fit=crop" alt="Styled wig on model">
-    <img src="https://images.unsplash.com/photo-1554519515-242161756769?q=80&w=500&auto=format&fit=crop" alt="Close up curly hair texture">
-    <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?q=80&w=500&auto=format&fit=crop" alt="Woman with braided hairstyle">
-    <img src="https://images.unsplash.com/photo-1523264939339-c89f9dadde2f?q=80&w=500&auto=format&fit=crop" alt="Fashion editorial portrait">
-    <img src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?q=80&w=500&auto=format&fit=crop" alt="Woman smiling with wavy wig">
-    <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?q=80&w=500&auto=format&fit=crop" alt="Close up portrait of styled hair">
+    <img src="./images/img8.jpeg" alt="Styled wig on model">
+    <img src="./images/img9.jpeg" alt="Close up wig texture">
+    <img src="./images/img10.jpeg" alt="Woman wearing Peace Nature Empire wig">
+    <img src="./images/img11.jpeg" alt="Wig styling detail">
+    <img src="./images/img12.jpeg" alt="Woman smiling with wavy wig">
+    <img src="./images/img13.jpeg" alt="Close up portrait of styled wig">
   </div>
   <a href="#" class="btn btn-outline social-cta">Follow Us on Instagram</a>
 </section>
@@ -227,14 +234,14 @@
 <footer class="footer">
   <div class="footer-top">
     <div class="footer-brand">
-      <p class="wordmark">Peace Nature Empire</p>
+      <p class="wordmark"><img src="./images/logo.jpeg" alt="Peace Nature Empire logo" class="logo-img">Peace Nature Empire</p>
       <p class="footer-tagline">Your Crown. Your Confidence.</p>
     </div>
     <div class="footer-col">
       <span>Quick Links</span>
       <a href="#shop">Shop</a>
       <a href="#collections">Collections</a>
-      <a href="#about">About</a>
+
       <a href="#contact">Contact</a>
     </div>
     <div class="footer-col">
@@ -248,7 +255,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Peace Nature Empire. Demo site built by Marvellous — not a live store.</p>
+    <p>© 2026 Peace Nature Empire. All rights reserved.</p>
   </div>
 </footer>
 
@@ -265,13 +272,77 @@
       <span>Total</span>
       <strong id="cartTotal">₦0</strong>
     </div>
-    <button class="btn btn-gold cart-checkout" id="checkoutBtn">Proceed to Order</button>
+    <div class="cart-footer-actions">
+      <button class="btn btn-outline cart-clear" id="clearCartBtn">Clear Cart</button>
+      <button class="btn btn-gold cart-checkout" id="checkoutBtn">Proceed to Checkout</button>
+    </div>
   </div>
 </aside>
 
 <!-- PRODUCT MODAL -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="product-modal" id="productModal"></div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-overlay" id="checkoutOverlay">
+  <div class="checkout-modal" id="checkoutModal">
+    <button class="modal-close" id="checkoutClose" aria-label="Close checkout">&times;</button>
+    <h3>Checkout</h3>
+    <p class="checkout-sub">Enter your delivery details to proceed to payment.</p>
+
+    <div class="checkout-summary" id="checkoutSummary"></div>
+
+    <form id="checkoutForm" class="checkout-form" novalidate>
+      <label>Full Name
+        <input type="text" name="fullName" required placeholder="e.g. Amara Okafor">
+        <span class="field-error" data-error-for="fullName"></span>
+      </label>
+      <label>Email
+        <input type="email" name="email" required placeholder="you@email.com">
+        <span class="field-error" data-error-for="email"></span>
+      </label>
+      <label>Phone Number
+        <input type="tel" name="phone" required placeholder="080X XXX XXXX">
+        <span class="field-error" data-error-for="phone"></span>
+      </label>
+      <label>Address
+        <input type="text" name="address" required placeholder="Street address">
+        <span class="field-error" data-error-for="address"></span>
+      </label>
+      <div class="checkout-row">
+        <label>City
+          <input type="text" name="city" required placeholder="e.g. Ikeja">
+          <span class="field-error" data-error-for="city"></span>
+        </label>
+        <label>State
+          <input type="text" name="state" required placeholder="e.g. Lagos">
+          <span class="field-error" data-error-for="state"></span>
+        </label>
+      </div>
+
+      <!--
+        ============================================================
+        PAYSTACK INTEGRATION POINT
+        ============================================================
+        On submit, after validation passes, this is where the
+        Paystack Inline/Popup checkout should be triggered using the
+        order total (in kobo) and the customer's email.
+        Do NOT hardcode public/secret keys here — load the public
+        key from a config/environment source at integration time.
+
+        Intended flow:
+          1. Validate checkout form (done below in script.js)
+          2. Create a pending order in Supabase (orders + order_items)
+          3. Initialize Paystack payment with order reference
+          4. On successful payment callback, verify server-side
+          5. Update order status in Supabase to "paid"
+        ============================================================
+      -->
+      <button type="submit" class="btn btn-gold checkout-submit" id="proceedToPaymentBtn">Proceed to Payment</button>
+      <p class="form-note" id="checkoutNote"></p>
+    </form>
+  </div>
 </div>
 
 <!-- TOAST -->
